@@ -43,7 +43,6 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #3b4d66;
     }
-    /* 테이블 고정 레이아웃 미세 조정 */
     th, td {
       white-space: nowrap;
     }
@@ -67,32 +66,15 @@
 
       <!-- 내비게이션 메뉴 트리 -->
       <nav class="p-3 space-y-1 text-sm overflow-y-auto max-h-[calc(100vh-120px)]">
-        <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
-          <span>종합현황 대시보드</span>
-        </a>
-        <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="calendar-check" class="w-4 h-4"></i>
-          <span>일일점검 현황판</span>
-        </a>
-        <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
-          <span>고장 예측 · 위험도</span>
-        </a>
-        <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="bot" class="w-4 h-4 text-sky-400"></i>
-          <span>AI에게 질문하기</span>
-        </a>
-
         <!-- 그룹: 설비 & 롤 관리 (Active) -->
-        <div class="pt-4 pb-1">
+        <div class="pt-2 pb-1">
           <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">설비 & 롤 자산 관리</div>
         </div>
 
         <div class="space-y-1">
           <a href="#" class="flex items-center justify-between px-3 py-2.5 rounded-lg bg-orange-600/10 text-orange-400 font-semibold border border-orange-500/30">
             <div class="flex items-center space-x-3">
-              <i data-lucide="disc-3" class="w-4 h-4 text-orange-400 animate-spin-slow"></i>
+              <i data-lucide="disc-3" class="w-4 h-4 text-orange-400"></i>
               <span>Roll 현황 관리</span>
             </div>
             <span class="w-2 h-2 rounded-full bg-orange-500"></span>
@@ -104,25 +86,30 @@
           </div>
         </div>
 
-        <!-- 기타 일반 메뉴 -->
+        <!-- AI 어시스턴트 -->
         <div class="pt-4 pb-1">
-          <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">유지보수 실적</div>
+          <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">AI 어시스턴트</div>
         </div>
         <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="clipboard-check" class="w-4 h-4"></i>
-          <span>예방점검 리스트</span>
+          <i data-lucide="bot" class="w-4 h-4 text-sky-400"></i>
+          <span>AI에게 질문하기</span>
         </a>
-        <a href="#" class="flex items-center space-x-3 px-3 py-2.5 rounded-lg text-seah-subtext hover:bg-seah-card hover:text-white transition-colors">
-          <i data-lucide="wrench" class="w-4 h-4"></i>
-          <span>고장실적 보고서</span>
-        </a>
+
+        <!-- 기타 메뉴 -->
+        <div class="pt-4 pb-1">
+          <div class="px-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider">클라우드 관리</div>
+        </div>
+        <button onclick="openFirebaseModal()" class="w-full flex items-center space-x-3 px-3 py-2.5 rounded-lg text-amber-400/90 hover:bg-amber-950/30 transition-colors text-left">
+          <i data-lucide="settings-2" class="w-4 h-4 text-amber-400"></i>
+          <span>Firebase 설정 상태</span>
+        </button>
       </nav>
     </div>
 
     <!-- 하단 회사 정보 -->
     <div class="p-4 border-t border-seah-border flex items-center justify-between text-xs text-seah-subtext bg-[#0d1219]">
       <span>© 2026 Se-ah CM.</span>
-      <span class="text-[10px] text-slate-500">v2.4</span>
+      <span class="text-[10px] text-slate-500">v2.6 (Cloud Live)</span>
     </div>
   </aside>
 
@@ -134,28 +121,33 @@
       <div class="flex items-center space-x-3">
         <h2 class="text-base font-bold text-white tracking-wide">Roll 통합 현황 관리</h2>
         <span class="text-seah-border text-sm">|</span>
-        <span class="text-xs text-seah-subtext">라인별 롤 위치 추적 및 수리·스페어 실시간 모니터링</span>
+        <span class="text-xs text-seah-subtext">라인별 롤 위치 추적 및 실시간 클라우드 DB 동기화</span>
       </div>
 
       <!-- 상단 알림 및 사용자 프로필 -->
       <div class="flex items-center space-x-3">
+        <!-- 클라우드 연동 상태 표시 배지 (클릭 시 가이드 모달 오픈) -->
+        <button onclick="openFirebaseModal()" id="cloudStatusBtn" class="flex items-center space-x-2 bg-slate-800/80 border border-slate-700 px-3 py-1.5 rounded-full hover:bg-slate-700/80 transition cursor-pointer" title="클라우드 연결 상태 확인">
+          <span id="cloudStatusDot" class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+          </span>
+          <span id="cloudStatusText" class="text-xs font-medium text-amber-400">클라우드 연결 확인 중...</span>
+        </button>
+
         <!-- 긴급 알림 배지 -->
         <div class="flex items-center space-x-2 bg-red-950/40 border border-red-800/60 px-3 py-1.5 rounded-full">
-          <span class="relative flex h-2 w-2">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-          </span>
-          <span class="text-xs font-medium text-red-400" id="alertCountBadge">수리반출/지연 2건</span>
+          <span class="text-xs font-medium text-red-400" id="alertCountBadge">수리반출/지연 0건</span>
         </div>
 
         <!-- 사용자 프로필 -->
-        <div class="flex items-center space-x-2.5 bg-seah-card border border-seah-border px-3.5 py-1.5 rounded-lg">
-          <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-orange-500 to-amber-300 flex items-center justify-center text-xs font-bold text-black">
-            B
+        <div class="flex items-center space-x-2.5 bg-seah-card border border-seah-border px-3.5 py-1.5 rounded-lg max-w-xs">
+          <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-orange-500 to-amber-300 flex items-center justify-center text-xs font-bold text-black shrink-0">
+            S
           </div>
-          <div class="text-left leading-none">
-            <p class="text-xs font-semibold text-slate-200">bongchan.ahn@seah.co.kr</p>
-            <p class="text-[10px] text-seah-subtext mt-0.5">설비보전팀 / 관리자</p>
+          <div class="text-left leading-none truncate">
+            <p class="text-xs font-semibold text-slate-200 truncate" id="userAuthDisplay">연결 확인 중...</p>
+            <p class="text-[10px] text-seah-subtext mt-0.5" id="userAuthRole">프로젝트: rollmanager-78c83</p>
           </div>
         </div>
       </div>
@@ -166,7 +158,6 @@
 
       <!-- 1. 통계 요약 카드 (KPI Cards) -->
       <div class="grid grid-cols-2 md:grid-cols-5 gap-3.5">
-        <!-- 전체 롤 -->
         <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex items-center justify-between">
           <div>
             <p class="text-xs text-seah-subtext font-medium">관리 총 롤 수</p>
@@ -177,7 +168,6 @@
           </div>
         </div>
 
-        <!-- 설치 가동중 -->
         <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex items-center justify-between">
           <div>
             <p class="text-xs text-emerald-400 font-medium">설치 가동중</p>
@@ -188,7 +178,6 @@
           </div>
         </div>
 
-        <!-- 스페어 보유 -->
         <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex items-center justify-between">
           <div>
             <p class="text-xs text-sky-400 font-medium">스페어 보유</p>
@@ -199,7 +188,6 @@
           </div>
         </div>
 
-        <!-- 수리 반출 -->
         <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex items-center justify-between">
           <div>
             <p class="text-xs text-amber-400 font-medium">수리 반출중</p>
@@ -210,7 +198,6 @@
           </div>
         </div>
 
-        <!-- 수리 대기 -->
         <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex items-center justify-between">
           <div>
             <p class="text-xs text-rose-400 font-medium">수리 대기</p>
@@ -224,7 +211,6 @@
 
       <!-- 2. 필터 및 액션 툴바 -->
       <div class="bg-seah-card p-4 rounded-xl border border-seah-border flex flex-wrap items-center justify-between gap-3">
-        <!-- 좌측: 필터 컨트롤 -->
         <div class="flex flex-wrap items-center gap-2.5">
           <!-- 라인 선택 -->
           <div class="flex items-center space-x-1.5 bg-seah-dark border border-seah-border rounded-lg px-2.5 py-1.5">
@@ -306,15 +292,15 @@
               </tr>
             </thead>
             <tbody id="rollTableBody" class="divide-y divide-seah-border">
-              <!-- JS로 렌더링 됩니다 -->
+              <!-- 실시간 데이터 렌더링 -->
             </tbody>
           </table>
         </div>
 
-        <!-- 테이블 하단 페이징 바 -->
+        <!-- 테이블 하단 바 -->
         <div class="p-3.5 bg-[#121822] border-t border-seah-border flex flex-col sm:flex-row items-center justify-between text-xs text-seah-subtext gap-2">
           <div class="flex items-center space-x-2">
-            <span>표시 항목: 15개 단위</span>
+            <span>실시간 클라우드 영구 저장 활성화</span>
             <span class="text-slate-600">|</span>
             <span class="flex items-center space-x-1">
               <span class="w-2 h-2 rounded-full bg-emerald-400 inline-block"></span>
@@ -342,7 +328,6 @@
   <!-- ================= 모달: 신규 등록 및 수정 ================= -->
   <div id="rollModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
     <div class="bg-[#161e2b] border border-seah-border rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl">
-      <!-- 모달 헤더 -->
       <div class="px-6 py-4 border-b border-seah-border flex items-center justify-between bg-[#121822]">
         <div class="flex items-center space-x-2">
           <i data-lucide="edit-3" class="w-5 h-5 text-seah-orange"></i>
@@ -353,12 +338,10 @@
         </button>
       </div>
 
-      <!-- 모달 폼 -->
       <form id="rollForm" onsubmit="handleFormSubmit(event)" class="p-6 space-y-4 max-h-[75vh] overflow-y-auto">
-        <input type="hidden" id="formRollIdKey">
+        <input type="hidden" id="formDocIdKey">
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- 라인 -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">LINE <span class="text-rose-400">*</span></label>
             <select id="formLine" required class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-seah-orange">
@@ -371,13 +354,11 @@
             </select>
           </div>
 
-          <!-- 롤 명 -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">ROLL 명 <span class="text-rose-400">*</span></label>
             <input type="text" id="formRollName" required placeholder="예: Bridle Roll #1" class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-seah-orange">
           </div>
 
-          <!-- ROLL ID -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">ROLL ID <span class="text-rose-400">*</span></label>
             <input type="text" id="formRollId" required placeholder="예: CPL-BR-001" class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white font-mono focus:outline-none focus:border-seah-orange">
@@ -385,13 +366,11 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <!-- 프로파일 -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">ROLL PROFILE</label>
             <input type="text" id="formProfile" placeholder="예: Crown (+0.05) 또는 Flat" class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-seah-orange">
           </div>
 
-          <!-- 현재 상태 -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">현재 상태 <span class="text-rose-400">*</span></label>
             <select id="formStatus" required class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-seah-orange">
@@ -403,14 +382,12 @@
             </select>
           </div>
 
-          <!-- 비용 -->
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">비용 (KRW)</label>
             <input type="number" id="formCost" placeholder="0" class="w-full bg-seah-dark border border-seah-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-seah-orange">
           </div>
         </div>
 
-        <!-- 업체 및 일자 -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2 border-t border-seah-border">
           <div>
             <label class="block text-xs font-semibold text-seah-subtext mb-1">제작업체</label>
@@ -437,7 +414,6 @@
           </div>
         </div>
 
-        <!-- 베어링 관리 정보 -->
         <div class="p-3 bg-seah-dark/80 rounded-xl border border-seah-border space-y-3">
           <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
             <i data-lucide="cog" class="w-3.5 h-3.5"></i> 베어링 결합 사양 및 재고 연계
@@ -458,31 +434,151 @@
           </div>
         </div>
 
-        <!-- 모달 푸터 버튼 -->
         <div class="pt-4 border-t border-seah-border flex items-center justify-end space-x-2">
           <button type="button" onclick="closeModal()" class="px-4 py-2 bg-seah-dark hover:bg-seah-hover border border-seah-border rounded-lg text-xs font-semibold text-seah-subtext hover:text-white transition">
             취소
           </button>
-          <button type="submit" class="px-5 py-2 bg-seah-orange hover:bg-orange-600 rounded-lg text-xs font-bold text-white transition shadow-md">
-            저장하기
+          <button type="submit" id="submitBtn" class="px-5 py-2 bg-seah-orange hover:bg-orange-600 rounded-lg text-xs font-bold text-white transition shadow-md flex items-center gap-1.5">
+            <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+            <span>클라우드에 저장</span>
           </button>
         </div>
       </form>
     </div>
   </div>
 
+  <!-- ================= Firebase 설정 진단 및 해결 가이드 모달 ================= -->
+  <div id="firebaseModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+    <div class="bg-[#161e2b] border border-seah-border rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl">
+      <div class="px-6 py-4 border-b border-seah-border flex items-center justify-between bg-[#121822]">
+        <div class="flex items-center space-x-2.5">
+          <i data-lucide="database" class="w-5 h-5 text-amber-400"></i>
+          <h3 class="text-base font-bold text-white">Firebase 클라우드 연동 상태 및 설정 가이드</h3>
+        </div>
+        <button onclick="closeFirebaseModal()" class="text-seah-subtext hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 space-y-4 max-h-[75vh] overflow-y-auto text-xs">
+        <!-- 현재 진단 상태 박스 -->
+        <div class="p-3.5 rounded-xl bg-slate-900 border border-slate-700 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-300">프로젝트 ID:</span>
+            <span class="font-mono text-orange-400 font-semibold" id="diagProjectId">rollmanager-78c83</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-300">인증(Auth) 상태:</span>
+            <span class="font-mono text-emerald-400 font-semibold" id="diagAuthStatus">확인 중...</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-slate-300">동기화 상태:</span>
+            <span class="font-mono text-slate-300" id="diagSyncStatus">대기 중</span>
+          </div>
+        </div>
+
+        <!-- 해결 안내 단계 -->
+        <div class="space-y-3">
+          <p class="font-bold text-amber-400 text-sm">💡 신규 롤 등록 후 새로고침 시 사라지는 경우 확인사항:</p>
+          <div class="p-3.5 bg-slate-900/90 border border-slate-800 rounded-xl space-y-2.5 text-slate-300 leading-relaxed">
+            <div>
+              <p class="font-bold text-white mb-1">1. Firebase Console에서 '익명 로그인' 활성화 (필수)</p>
+              <p class="text-[11px] text-slate-400">
+                Firebase는 보안상 기본적으로 모든 로그인을 차단합니다. 아래 경로에서 익명 로그인을 활성화해야 영구 저장이 가능합니다:
+              </p>
+              <code class="block bg-black/60 p-2 rounded text-[11px] font-mono text-amber-300 my-1">
+                Firebase Console → rollmanager-78c83 → Authentication → [로그인 방법(Sign-in method)] 탭 → [익명(Anonymous)] '사용 설정' 활성화 → 저장
+              </code>
+            </div>
+
+            <div class="pt-2 border-t border-slate-800">
+              <p class="font-bold text-white mb-1">2. Cloud Firestore 규칙(Rules) 읽기/쓰기 허용</p>
+              <p class="text-[11px] text-slate-400">
+                Firestore Database의 규칙 탭에서 인증된 사용자의 읽기/쓰기가 허용되어 있는지 확인해 주세요:
+              </p>
+              <pre class="bg-black/60 p-2 rounded text-[11px] font-mono text-sky-300 my-1 overflow-x-auto">
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}</pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end space-x-2">
+          <button type="button" onclick="closeFirebaseModal()" class="px-4 py-2 bg-seah-dark hover:bg-seah-hover border border-seah-border rounded-lg font-semibold text-seah-subtext hover:text-white transition">
+            닫기
+          </button>
+          <button type="button" onclick="retryConnection()" class="px-4 py-2 bg-seah-orange hover:bg-orange-600 font-bold text-white rounded-lg transition flex items-center gap-1.5">
+            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i>
+            <span>연결 재시도</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 토스트 알림창 -->
-  <div id="toast" class="fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 translate-y-20 opacity-0 transition-all duration-300 z-50">
-    <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
+    <span id="toastIconWrap" class="flex items-center justify-center">
+      <i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>
+    </span>
     <span id="toastMsg">처리되었습니다.</span>
   </div>
 
-  <!-- ================= 스크립트 로직 ================= -->
-  <script>
-    // 초기 롤 데이터베이스 (샘플 더미 데이터 - 실무 명칭 반영)
-    let rollData = [
+  <!-- ================= Firebase & 애플리케이션 스크립트 ================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { 
+      getAuth, 
+      signInWithCustomToken, 
+      signInAnonymously, 
+      onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { 
+      getFirestore, 
+      collection, 
+      doc, 
+      addDoc, 
+      updateDoc, 
+      deleteDoc, 
+      onSnapshot, 
+      getDocs 
+    } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // 사용자 지정 Firebase 설정 (rollmanager-78c83)
+    const userFirebaseConfig = {
+      apiKey: "AIzaSyBZYk2H-1cOZ79dUoQV8fB3SWm_gmzaY7A",
+      authDomain: "rollmanager-78c83.firebaseapp.com",
+      projectId: "rollmanager-78c83",
+      storageBucket: "rollmanager-78c83.firebasestorage.app",
+      messagingSenderId: "348718511423",
+      appId: "1:348718511423:web:3588d083a16422d9930f8a",
+      measurementId: "G-KRC94WDKXT"
+    };
+
+    // Canvas 환경변수 우선 적용 및 외부 실행 시 제공받은 키 사용
+    const isCanvasEnv = typeof __firebase_config !== 'undefined';
+    const firebaseConfig = isCanvasEnv ? JSON.parse(__firebase_config) : userFirebaseConfig;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'rollmanager-78c83';
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // 전역 상태
+    let currentUser = null;
+    let rollData = [];
+    let isSeeding = false;
+    let unsubscribeFirestore = null;
+
+    // 기본 시드 데이터
+    const defaultRollSeed = [
       {
-        id: "R-001",
         line: "CPL",
         rollName: "Bridle Roll #1",
         rollId: "CPL-BR-001",
@@ -496,10 +592,10 @@
         cost: 12500000,
         bearingSpec: "22220 EK (NSK)",
         bearingQty: 2,
-        bearingStock: 4
+        bearingStock: 4,
+        createdAt: 1710000000000
       },
       {
-        id: "R-002",
         line: "CRM",
         rollName: "Work Roll Top",
         rollId: "CRM-WR-014",
@@ -513,10 +609,10 @@
         cost: 4800000,
         bearingSpec: "23124 CCK/W33",
         bearingQty: 4,
-        bearingStock: 1
+        bearingStock: 1,
+        createdAt: 1711000000000
       },
       {
-        id: "R-003",
         line: "CGL",
         rollName: "Sink Roll",
         rollId: "CGL-SK-003",
@@ -530,10 +626,10 @@
         cost: 18000000,
         bearingSpec: "UC208-24",
         bearingQty: 2,
-        bearingStock: 6
+        bearingStock: 6,
+        createdAt: 1712000000000
       },
       {
-        id: "R-004",
         line: "1CCL",
         rollName: "Coater Roll #1",
         rollId: "1CCL-CT-008",
@@ -547,10 +643,10 @@
         cost: 2300000,
         bearingSpec: "6212 ZZ",
         bearingQty: 2,
-        bearingStock: 0
+        bearingStock: 0,
+        createdAt: 1713000000000
       },
       {
-        id: "R-005",
         line: "2CCL",
         rollName: "Tension Leveler",
         rollId: "2CCL-TL-002",
@@ -564,10 +660,10 @@
         cost: 8900000,
         bearingSpec: "NU 2214 ECP",
         bearingQty: 2,
-        bearingStock: 3
+        bearingStock: 3,
+        createdAt: 1714000000000
       },
       {
-        id: "R-006",
         line: "3CCL",
         rollName: "Steering Roll #3",
         rollId: "3CCL-ST-005",
@@ -581,28 +677,12 @@
         cost: 6200000,
         bearingSpec: "22216 E",
         bearingQty: 2,
-        bearingStock: 5
-      },
-      {
-        id: "R-007",
-        line: "CRM",
-        rollName: "Backup Roll Bottom",
-        rollId: "CRM-BUR-007",
-        profile: "Camber 0.02",
-        status: "설치 가동중",
-        mfgDate: "2019-10-11",
-        mfgCompany: "두산중공업",
-        repairCompany: "세아정공",
-        outDate: "2025-12-01",
-        inDate: "2026-01-20",
-        cost: 32000000,
-        bearingSpec: "FC 5276240",
-        bearingQty: 4,
-        bearingStock: 2
+        bearingStock: 5,
+        createdAt: 1715000000000
       }
     ];
 
-    // 상태별 배지 색상 매핑
+    // 상태별 배지 마크업
     function getStatusBadge(status) {
       switch (status) {
         case '설치 가동중':
@@ -628,7 +708,7 @@
       }
     }
 
-    // 테이블 렌더링 및 통계 계산
+    // 테이블 렌더링
     function renderTable() {
       const lineVal = document.getElementById('filterLine').value;
       const statusVal = document.getElementById('filterStatus').value;
@@ -641,16 +721,15 @@
         const matchLine = (lineVal === 'ALL' || item.line === lineVal);
         const matchStatus = (statusVal === 'ALL' || item.status === statusVal);
         const matchSearch = searchVal === '' || 
-          item.rollId.toLowerCase().includes(searchVal) ||
-          item.rollName.toLowerCase().includes(searchVal) ||
-          item.mfgCompany.toLowerCase().includes(searchVal) ||
-          item.repairCompany.toLowerCase().includes(searchVal) ||
-          item.bearingSpec.toLowerCase().includes(searchVal);
+          (item.rollId || '').toLowerCase().includes(searchVal) ||
+          (item.rollName || '').toLowerCase().includes(searchVal) ||
+          (item.mfgCompany || '').toLowerCase().includes(searchVal) ||
+          (item.repairCompany || '').toLowerCase().includes(searchVal) ||
+          (item.bearingSpec || '').toLowerCase().includes(searchVal);
 
         return matchLine && matchStatus && matchSearch;
       });
 
-      // 건수 업데이트
       document.getElementById('resultCount').innerText = filtered.length;
 
       if (filtered.length === 0) {
@@ -667,30 +746,29 @@
           const tr = document.createElement('tr');
           tr.className = "hover:bg-seah-hover/60 transition-colors border-b border-seah-border/50";
           
-          // 베어링 재고 경고 색상
-          const isStockLow = item.bearingStock <= 1;
+          const isStockLow = Number(item.bearingStock || 0) <= 1;
           const stockClass = isStockLow ? "text-rose-400 font-bold" : "text-emerald-400";
 
           tr.innerHTML = `
             <td class="py-3 px-3 text-center text-slate-500">${index + 1}</td>
-            <td class="py-3 px-3.5 font-bold text-orange-400">${item.line}</td>
+            <td class="py-3 px-3.5 font-bold text-orange-400">${item.line || '-'}</td>
             <td class="py-3 px-4 font-semibold text-white flex items-center gap-1.5">
               <i data-lucide="disc" class="w-3.5 h-3.5 text-slate-400"></i>
-              <span>${item.rollName}</span>
+              <span>${item.rollName || '-'}</span>
             </td>
-            <td class="py-3 px-3.5 font-mono text-slate-300 font-medium">${item.rollId}</td>
+            <td class="py-3 px-3.5 font-mono text-slate-300 font-medium">${item.rollId || '-'}</td>
             <td class="py-3 px-3.5 text-slate-400">${item.profile || '-'}</td>
             <td class="py-3 px-3 text-center">${getStatusBadge(item.status)}</td>
             <td class="py-3 px-3.5 text-slate-400">${item.mfgDate || '-'}</td>
             <td class="py-3 px-3.5 text-slate-300">${item.mfgCompany || '-'}</td>
             <td class="py-3 px-3.5 text-slate-400">${item.repairCompany || '-'}</td>
-            <td class="py-3 px-3.5 text-center ${item.outDate !== '-' ? 'text-amber-300' : 'text-slate-500'}">${item.outDate}</td>
-            <td class="py-3 px-3.5 text-center ${item.inDate !== '-' ? 'text-sky-300' : 'text-slate-500'}">${item.inDate}</td>
+            <td class="py-3 px-3.5 text-center ${item.outDate && item.outDate !== '-' ? 'text-amber-300' : 'text-slate-500'}">${item.outDate || '-'}</td>
+            <td class="py-3 px-3.5 text-center ${item.inDate && item.inDate !== '-' ? 'text-sky-300' : 'text-slate-500'}">${item.inDate || '-'}</td>
             <td class="py-3 px-4 text-right font-mono text-slate-200">${Number(item.cost || 0).toLocaleString()}</td>
             <td class="py-3 px-4">
               <div class="font-medium text-slate-200">${item.bearingSpec || '-'}</div>
               <div class="text-[10px] text-slate-400">
-                필요: ${item.bearingQty}EA / 잔여재고: <span class="${stockClass}">${item.bearingStock}EA</span>
+                필요: ${item.bearingQty || 0}EA / 잔여재고: <span class="${stockClass}">${item.bearingStock || 0}EA</span>
                 ${isStockLow ? '<span class="text-rose-400 ml-1 font-semibold">[발주필요]</span>' : ''}
               </div>
             </td>
@@ -713,7 +791,7 @@
       lucide.createIcons();
     }
 
-    // 상단 통계 수치 갱신
+    // 통계 계산
     function updateKPI() {
       const total = rollData.length;
       const active = rollData.filter(d => d.status === '설치 가동중').length;
@@ -730,62 +808,82 @@
       document.getElementById('alertCountBadge').innerText = `수리반출/대기 ${repairOut + repairWait}건`;
     }
 
-    function applyFilters() {
+    // 필터 제어
+    window.applyFilters = function() {
       renderTable();
-    }
+    };
 
-    function resetFilters() {
+    window.resetFilters = function() {
       document.getElementById('filterLine').value = 'ALL';
       document.getElementById('filterStatus').value = 'ALL';
       document.getElementById('searchInput').value = '';
       renderTable();
-    }
+    };
 
-    // 모달 관리
-    function openModal(mode, id = null) {
+    // 모달 열기/닫기
+    window.openModal = function(mode, id = null) {
       const modal = document.getElementById('rollModal');
       const title = document.getElementById('modalTitle');
       const form = document.getElementById('rollForm');
       form.reset();
 
       if (mode === 'add') {
-        title.innerText = "신규 Roll 자산 등록";
-        document.getElementById('formRollIdKey').value = "";
+        title.innerText = "신규 Roll 자산 등록 (클라우드 저장)";
+        document.getElementById('formDocIdKey').value = "";
         document.getElementById('formMfgDate').value = new Date().toISOString().split('T')[0];
       } else {
         title.innerText = "Roll 제원 및 이력 수정";
         const item = rollData.find(r => r.id === id);
         if (!item) return;
 
-        document.getElementById('formRollIdKey').value = item.id;
-        document.getElementById('formLine').value = item.line;
-        document.getElementById('formRollName').value = item.rollName;
-        document.getElementById('formRollId').value = item.rollId;
-        document.getElementById('formProfile').value = item.profile;
-        document.getElementById('formStatus').value = item.status;
-        document.getElementById('formCost').value = item.cost;
-        document.getElementById('formMfgCompany').value = item.mfgCompany === '-' ? '' : item.mfgCompany;
-        document.getElementById('formMfgDate').value = item.mfgDate === '-' ? '' : item.mfgDate;
-        document.getElementById('formRepairCompany').value = item.repairCompany === '-' ? '' : item.repairCompany;
-        document.getElementById('formOutDate').value = item.outDate === '-' ? '' : item.outDate;
-        document.getElementById('formInDate').value = item.inDate === '-' ? '' : item.inDate;
-        document.getElementById('formBearingSpec').value = item.bearingSpec;
-        document.getElementById('formBearingQty').value = item.bearingQty;
-        document.getElementById('formBearingStock').value = item.bearingStock;
+        document.getElementById('formDocIdKey').value = item.id;
+        document.getElementById('formLine').value = item.line || 'CPL';
+        document.getElementById('formRollName').value = item.rollName || '';
+        document.getElementById('formRollId').value = item.rollId || '';
+        document.getElementById('formProfile').value = item.profile || '';
+        document.getElementById('formStatus').value = item.status || '설치 가동중';
+        document.getElementById('formCost').value = item.cost || 0;
+        document.getElementById('formMfgCompany').value = item.mfgCompany === '-' ? '' : (item.mfgCompany || '');
+        document.getElementById('formMfgDate').value = item.mfgDate === '-' ? '' : (item.mfgDate || '');
+        document.getElementById('formRepairCompany').value = item.repairCompany === '-' ? '' : (item.repairCompany || '');
+        document.getElementById('formOutDate').value = item.outDate === '-' ? '' : (item.outDate || '');
+        document.getElementById('formInDate').value = item.inDate === '-' ? '' : (item.inDate || '');
+        document.getElementById('formBearingSpec').value = item.bearingSpec || '';
+        document.getElementById('formBearingQty').value = item.bearingQty || 0;
+        document.getElementById('formBearingStock').value = item.bearingStock || 0;
       }
 
       modal.classList.remove('hidden');
       lucide.createIcons();
-    }
+    };
 
-    function closeModal() {
+    window.closeModal = function() {
       document.getElementById('rollModal').classList.add('hidden');
-    }
+    };
 
-    // 폼 저장 핸들러
-    function handleFormSubmit(e) {
+    window.openFirebaseModal = function() {
+      document.getElementById('firebaseModal').classList.remove('hidden');
+      lucide.createIcons();
+    };
+
+    window.closeFirebaseModal = function() {
+      document.getElementById('firebaseModal').classList.add('hidden');
+    };
+
+    // 폼 저장 핸들러 (Firestore 영구 저장)
+    window.handleFormSubmit = async function(e) {
       e.preventDefault();
-      const idKey = document.getElementById('formRollIdKey').value;
+      
+      // RULE 3 준수: Auth 확인
+      if (!currentUser) {
+        showToast("인증 확인 실패: Firebase 설정을 확인해주세요.", "error");
+        window.openFirebaseModal();
+        return;
+      }
+
+      const docId = document.getElementById('formDocIdKey').value;
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
 
       const payload = {
         line: document.getElementById('formLine').value,
@@ -801,62 +899,81 @@
         inDate: document.getElementById('formInDate').value || '-',
         bearingSpec: document.getElementById('formBearingSpec').value || '-',
         bearingQty: Number(document.getElementById('formBearingQty').value) || 0,
-        bearingStock: Number(document.getElementById('formBearingStock').value) || 0
+        bearingStock: Number(document.getElementById('formBearingStock').value) || 0,
+        updatedAt: Date.now()
       };
 
-      if (idKey) {
-        // 수정
-        const idx = rollData.findIndex(r => r.id === idKey);
-        if (idx !== -1) {
-          rollData[idx] = { ...rollData[idx], ...payload };
-          showToast("Roll 정보가 성공적으로 수정되었습니다.");
+      try {
+        if (docId && !docId.startsWith('seed-')) {
+          // 수정: RULE 1 경로 준수
+          const rollDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'rolls', docId);
+          await updateDoc(rollDocRef, payload);
+          showToast("클라우드 DB에 Roll 정보가 수정되었습니다.");
+        } else {
+          // 신규 추가: RULE 1 경로 준수
+          payload.createdAt = Date.now();
+          const rollsColl = collection(db, 'artifacts', appId, 'public', 'data', 'rolls');
+          await addDoc(rollsColl, payload);
+          showToast("신규 Roll이 클라우드에 영구 저장되었습니다.");
         }
-      } else {
-        // 신규 추가
-        const newObj = {
-          id: 'R-' + String(Date.now()).slice(-4),
-          ...payload
-        };
-        rollData.unshift(newObj);
-        showToast("신규 Roll이 목록에 등록되었습니다.");
+        window.closeModal();
+      } catch (err) {
+        console.error("Firestore 저장 오류:", err);
+        showToast("클라우드 저장 실패: Firebase 보안 규칙(Rules)을 확인하세요.", "error");
+        window.openFirebaseModal();
+      } finally {
+        submitBtn.disabled = false;
+      }
+    };
+
+    // 항목 삭제 (Firestore 동기화)
+    window.deleteRoll = async function(docId) {
+      if (!currentUser) {
+        window.openFirebaseModal();
+        return;
       }
 
-      closeModal();
-      renderTable();
-    }
+      const target = rollData.find(r => r.id === docId);
+      if (!target) return;
 
-    // 항목 삭제
-    function deleteRoll(id) {
-      const item = rollData.find(r => r.id === id);
-      if (!item) return;
+      try {
+        if (docId.startsWith('seed-')) {
+          // 시드 데이터 삭제 처리
+          rollData = rollData.filter(r => r.id !== docId);
+          renderTable();
+          showToast(`[${target.rollId}] 항목이 삭제되었습니다.`);
+        } else {
+          const rollDocRef = doc(db, 'artifacts', appId, 'public', 'data', 'rolls', docId);
+          await deleteDoc(rollDocRef);
+          showToast(`[${target.rollId}] 항목이 클라우드에서 삭제되었습니다.`);
+        }
+      } catch (err) {
+        console.error("Firestore 삭제 오류:", err);
+        showToast("삭제 실패: Firebase 권한을 확인해주세요.", "error");
+      }
+    };
 
-      // 브라우저 alert 대신 삭제 처리 & 알림
-      rollData = rollData.filter(r => r.id !== id);
-      showToast(`[${item.rollId}] 항목이 삭제되었습니다.`);
-      renderTable();
-    }
-
-    // CSV 파일 내보내기
-    function exportToCSV() {
+    // CSV 다운로드
+    window.exportToCSV = function() {
       let csv = "순번,LINE,ROLL,ROLL ID,ROLL PROFILE,현재 상태,제작일,제작업체,수리업체,반출일,입고일,비용,베어링 사양,베어링 수량,베어링 재고\n";
       
       rollData.forEach((r, idx) => {
         const row = [
           idx + 1,
-          `"${r.line}"`,
-          `"${r.rollName}"`,
-          `"${r.rollId}"`,
-          `"${r.profile}"`,
-          `"${r.status}"`,
-          `"${r.mfgDate}"`,
-          `"${r.mfgCompany}"`,
-          `"${r.repairCompany}"`,
-          `"${r.outDate}"`,
-          `"${r.inDate}"`,
-          r.cost,
-          `"${r.bearingSpec}"`,
-          r.bearingQty,
-          r.bearingStock
+          `"${r.line || ''}"`,
+          `"${r.rollName || ''}"`,
+          `"${r.rollId || ''}"`,
+          `"${r.profile || ''}"`,
+          `"${r.status || ''}"`,
+          `"${r.mfgDate || ''}"`,
+          `"${r.mfgCompany || ''}"`,
+          `"${r.repairCompany || ''}"`,
+          `"${r.outDate || ''}"`,
+          `"${r.inDate || ''}"`,
+          r.cost || 0,
+          `"${r.bearingSpec || ''}"`,
+          r.bearingQty || 0,
+          r.bearingStock || 0
         ];
         csv += row.join(",") + "\n";
       });
@@ -866,25 +983,184 @@
       link.href = URL.createObjectURL(blob);
       link.download = `SeAH_Roll_Status_${new Date().toISOString().slice(0,10)}.csv`;
       link.click();
-      showToast("Roll 현황 엑셀(CSV) 다운로드가 완료되었습니다.");
-    }
+      showToast("Roll 현황 CSV 다운로드가 완료되었습니다.");
+    };
 
-    // 토스트 메시지
-    function showToast(msg) {
+    // 토스트 알림창
+    let toastTimer = null;
+    function showToast(msg, type = "success") {
       const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIconWrap = document.getElementById('toastIconWrap');
+
+      toastMsg.innerText = msg;
+      if (type === "error") {
+        toast.className = "fixed bottom-6 right-6 bg-red-950 border border-red-700 text-red-200 text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all duration-300 z-50 pointer-events-none";
+        toastIconWrap.innerHTML = '<i data-lucide="alert-circle" class="w-4 h-4 text-red-400"></i>';
+      } else {
+        toast.className = "fixed bottom-6 right-6 bg-slate-800 border border-slate-700 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 transition-all duration-300 z-50 pointer-events-none";
+        toastIconWrap.innerHTML = '<i data-lucide="check" class="w-4 h-4 text-emerald-400"></i>';
+      }
+
+      lucide.createIcons();
+
       toast.classList.remove('translate-y-20', 'opacity-0');
       toast.classList.add('translate-y-0', 'opacity-100');
 
-      setTimeout(() => {
+      if (toastTimer) {
+        clearTimeout(toastTimer);
+      }
+
+      toastTimer = setTimeout(() => {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('translate-y-20', 'opacity-0');
-      }, 2500);
+      }, 3500);
     }
 
-    // 페이지 로드 초기화
+    // Firestore 초기 데이터 자동 시딩
+    async function seedInitialDataIfEmpty(collRef) {
+      if (isSeeding) return;
+      isSeeding = true;
+      try {
+        for (const item of defaultRollSeed) {
+          await addDoc(collRef, item);
+        }
+      } catch (e) {
+        console.warn("초기 데이터 시딩 알림(권한 확인 필요):", e);
+      } finally {
+        isSeeding = false;
+      }
+    }
+
+    // Firestore 실시간 리스너 연결 (RULE 1, 2 준수)
+    function setupFirestoreListener() {
+      // RULE 3 준수
+      if (!currentUser) return;
+
+      if (unsubscribeFirestore) {
+        unsubscribeFirestore();
+      }
+
+      const rollsColl = collection(db, 'artifacts', appId, 'public', 'data', 'rolls');
+
+      // RULE 2 준수: No complex queries
+      unsubscribeFirestore = onSnapshot(
+        rollsColl,
+        (snapshot) => {
+          document.getElementById('diagSyncStatus').innerText = `정상 수신 (${snapshot.size}건 동기화됨)`;
+
+          if (snapshot.empty) {
+            // 컬렉션이 비어있으면 초기 시딩을 시도하고 메모리 기본값으로 우선 표시
+            if (!isSeeding) {
+              seedInitialDataIfEmpty(rollsColl);
+            }
+            rollData = defaultRollSeed.map((item, idx) => ({ id: 'seed-' + idx, ...item }));
+            renderTable();
+            return;
+          }
+
+          const items = [];
+          snapshot.forEach((docSnap) => {
+            items.push({
+              id: docSnap.id,
+              ...docSnap.data()
+            });
+          });
+
+          // RULE 2 준수: JS 메모리 정렬
+          items.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+          rollData = items;
+
+          // 헤더 상태 배지 업데이트
+          const cloudBtn = document.getElementById('cloudStatusBtn');
+          cloudBtn.className = "flex items-center space-x-2 bg-emerald-950/40 border border-emerald-800/60 px-3 py-1.5 rounded-full hover:bg-emerald-900/50 transition cursor-pointer";
+          document.getElementById('cloudStatusDot').innerHTML = `
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          `;
+          document.getElementById('cloudStatusText').className = "text-xs font-medium text-emerald-400";
+          document.getElementById('cloudStatusText').innerText = "클라우드 실시간 동기화 완료";
+
+          renderTable();
+        },
+        (error) => {
+          console.error("Firestore 동기화 에러:", error);
+          document.getElementById('diagSyncStatus').innerText = `오류 발생: ${error.code}`;
+          
+          const cloudBtn = document.getElementById('cloudStatusBtn');
+          cloudBtn.className = "flex items-center space-x-2 bg-rose-950/50 border border-rose-800/60 px-3 py-1.5 rounded-full hover:bg-rose-900/50 transition cursor-pointer";
+          document.getElementById('cloudStatusDot').innerHTML = `
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+          `;
+          document.getElementById('cloudStatusText').className = "text-xs font-medium text-rose-400";
+          document.getElementById('cloudStatusText').innerText = "Firebase 설정 필요 [클릭]";
+
+          // 에러 시에도 기본 샘플 데이터를 렌더링하여 화면 유지
+          if (rollData.length === 0) {
+            rollData = defaultRollSeed.map((item, idx) => ({ id: 'seed-' + idx, ...item }));
+            renderTable();
+          }
+        }
+      );
+    }
+
+    // RULE 3 준수: Auth 완료 후 Firestore 쿼리 실행
+    async function initAuthentication() {
+      document.getElementById('diagProjectId').innerText = firebaseConfig.projectId;
+      
+      try {
+        if (isCanvasEnv && typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+          await signInWithCustomToken(auth, __initial_auth_token);
+        } else {
+          await signInAnonymously(auth);
+        }
+      } catch (authErr) {
+        console.warn("최초 로그인 재시도 (익명 로그인):", authErr);
+        try {
+          await signInAnonymously(auth);
+        } catch (e2) {
+          console.error("Firebase 익명 로그인 실패 (콘솔에서 익명 인증 활성화 필요):", e2);
+          document.getElementById('diagAuthStatus').innerText = "인증 실패 (익명 로그인 비활성화됨)";
+          document.getElementById('diagAuthStatus').className = "font-mono text-rose-400 font-semibold";
+          
+          const cloudBtn = document.getElementById('cloudStatusBtn');
+          cloudBtn.className = "flex items-center space-x-2 bg-amber-950/50 border border-amber-800/60 px-3 py-1.5 rounded-full hover:bg-amber-900/50 transition cursor-pointer";
+          document.getElementById('cloudStatusText').innerText = "Firebase 인증 설정 필요 [클릭]";
+        }
+      }
+
+      onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        if (user) {
+          document.getElementById('diagAuthStatus').innerText = `인증됨 (UID: ${user.uid.slice(0, 8)}...)`;
+          document.getElementById('diagAuthStatus').className = "font-mono text-emerald-400 font-semibold";
+          document.getElementById('userAuthDisplay').innerText = user.email || `접속자: ${user.uid.slice(0, 10)}...`;
+          document.getElementById('userAuthRole').innerText = `프로젝트: ${firebaseConfig.projectId}`;
+          setupFirestoreListener();
+        } else {
+          document.getElementById('userAuthDisplay').innerText = "인증 대기 / 설정 필요";
+          if (rollData.length === 0) {
+            rollData = defaultRollSeed.map((item, idx) => ({ id: 'seed-' + idx, ...item }));
+            renderTable();
+          }
+        }
+      });
+    }
+
+    // 재연결 버튼 동작
+    window.retryConnection = function() {
+      showToast("Firebase 재연결을 시도합니다...");
+      initAuthentication();
+      window.closeFirebaseModal();
+    };
+
+    // 초기 실행
     window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      // 기본 로컬 뷰 우선 렌더링
+      rollData = defaultRollSeed.map((item, idx) => ({ id: 'seed-' + idx, ...item }));
       renderTable();
+      initAuthentication();
     });
   </script>
 </body>
